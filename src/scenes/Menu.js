@@ -7,6 +7,8 @@ class Menu extends Phaser.Scene {
         //load images/tile sprites
         this.load.image('starfield', './assets/starfield.png')
         this.load.image('guy', './assets/guy.png')
+        this.load.atlas('jean_atlas', 'jeans.png', 'jeans.json')
+
     }
     
     create() {
@@ -31,6 +33,20 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press < to start', menuConfig).setOrigin(0.5)
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        
+        // animations
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNames('jean_atlas', {
+                prefix: 'jeans',
+                start: 1,
+                end: 10,
+                suffix: '',
+                zeroPad: 2
+            }),
+            framerate: 30,
+            repeat: -1
+        })
 
     }
 
