@@ -11,6 +11,14 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
+        this.music = this.sound.add('music', {
+            loop: true, 
+            volume: 0.5
+        })
+        this.music.play();
+
+
         // scrolling background
         this.starfield = this.add.tileSprite(0, 0, 0, 0, 'starfield').setOrigin(0)
         
@@ -103,17 +111,22 @@ class Play extends Phaser.Scene {
 	    
 	    if(this.guy.isGrounded) {
             this.guy.anims.play('run', true)
+
 	    	this.jumps = this.MAX_JUMPS
 	    	this.jumping = false
 	    }
 
 	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.up, 150)) {
+            this.sound.play('jump', {
+                volume: 0.1
+            })
 	        this.guy.body.velocity.y = this.JUMP_VELOCITY
 	        this.jumping = true
 
         }
 
         if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.up)) {
+
 	    	this.jumps--
 	    	this.jumping = false
 	    }
@@ -121,6 +134,10 @@ class Play extends Phaser.Scene {
         //check if player in bounds
         if (this.guy.y > game.config.height || this.guy.x < 0 || this.guy.x > game.config.width) {
             this.gameOverScreen();
+            this.sound.play('die',{
+                volume: 0.2
+            })
+            this.music.stop();
         }
         
         //platform destroy
