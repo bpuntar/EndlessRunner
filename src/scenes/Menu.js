@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png')
         this.load.image('guy', './assets/guy.png')
         this.load.atlas('jean_atlas', 'jeans.png', 'jeans.json')
+        this.load.image('platform', './assets/platform.png')
 
     }
     
