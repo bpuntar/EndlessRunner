@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-
+        // make music
         this.music = this.sound.add('music', {
             loop: true, 
             volume: 0.5
@@ -26,7 +26,7 @@ class Play extends Phaser.Scene {
         //code used from Movement Studies by Nathan Altice
         this.ground = this.physics.add.staticGroup()
         for(let i = 0; i < game.config.width; i += tileSize) {
-            let groundTile = this.ground.create(i, game.config.height - tileSize, 'guy').setScale(SCALE).setOrigin(0)
+            let groundTile = this.ground.create(i, game.config.height - tileSize, 'platform').setScale(SCALE).setOrigin(0)
             groundTile.body.immovable = true
             groundTile.body.allowGravity = false
             this.ground.add(groundTile)
@@ -47,7 +47,7 @@ class Play extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 800,
+            delay: 950,
             callback: this.addPlatform,
             callbackScope: this,
             loop: true
@@ -70,11 +70,42 @@ class Play extends Phaser.Scene {
             fill: '#ff0000'
         }).setOrigin(0.5).setAlpha(0);
 
+        //timer
+        this.timeLived = 0
+        this.timerText = this.add.text(game.config.width/2, 50, 'Time Survived: 0s', {
+
+            fontSize: '40px',
+            color: '#0000FF'
+        }).setOrigin(0.5, 0)
+
+
+        this.timer = this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                if (!this.gameOver) {
+                    this.timeLived++;
+                    this.timerText.setText('Time Survived:' + this.timeLived + 's')
+                }
+            },
+            callbackScope: this,
+            loop: true
+        })
+
+        //instructions
+        this.instructions = this.add.text(game.config.width / 2, game.config.height / 2 - 100, 'Press UP Arrow to Jump, the ground will disappear soon! You have 3 jumps', {
+            fontSize: '20px',
+            fill: '#0000FF'
+        }).setOrigin(0.5, 0.5);
+
+        //make them go away after 5 seconds
+        this.time.delayedCall(5000, () => {
+            this.instructions.setAlpha(0);
+        }, [], this);
     }
 
     addPlatform() {
         const platformHeight = Phaser.Math.Between(100, 500);
-        const speed = Phaser.Math.Between(200, 600);
+        const speed = Phaser.Math.Between(200, 400);
 
         const platform = this.physics.add.sprite(800, platformHeight, 'platform');
         platform.setSize(200, 20);
@@ -138,6 +169,7 @@ class Play extends Phaser.Scene {
                 volume: 0.2
             })
             this.music.stop();
+            this.timer.paused = true
         }
         
         //platform destroy

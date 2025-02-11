@@ -22,9 +22,9 @@ class Menu extends Phaser.Scene {
 
         let menuConfig = {
             fontFamily: 'Optima',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            fontSize: '40px',
+            backgroundColor: '#37a7ff',
+            color: '#3355ff',
             align: 'right',
             padding: {
             top: 5,
@@ -33,10 +33,10 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
         
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'Endless Runner', menuConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2, 'Filler Text', menuConfig).setOrigin(0.5)
-        menuConfig.backgroundColor = '#00FF00'
-        menuConfig.color = '#000'
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'Where Did My Pants Go?', menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/2, 'By Brandon Apuntar', menuConfig).setOrigin(0.5)
+        menuConfig.backgroundColor = '#37a7ff'
+        menuConfig.color = '#3355ff'
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press < to start', menuConfig).setOrigin(0.5)
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -57,6 +57,9 @@ class Menu extends Phaser.Scene {
             repeat: -1
         })
 
+    //display credits at bottom
+    document.getElementById('info').innerHTML = 'Made by: Brandon Apuntar | sprites made through Piskel: https://www.piskelapp.com/p/create/sprite | SFX made through https://chr15m.itch.io/jsfxr | background music made with BeepBox'
+
     }
 
     update() {
@@ -68,7 +71,4 @@ class Menu extends Phaser.Scene {
             
         }
     }
-
-
-
 }
